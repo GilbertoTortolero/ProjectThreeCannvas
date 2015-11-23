@@ -1,0 +1,146 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <style>
+      body {
+        margin: 0px;
+        padding: 0px;
+      }
+	  @-webkit-keyframes spinnerRotate
+{
+    from{-webkit-transform:rotate(0deg);}
+    to{-webkit-transform:rotate(360deg);}
+}
+@-moz-keyframes spinnerRotate
+{
+    from{-moz-transform:rotate(0deg);}
+    to{-moz-transform:rotate(360deg);}
+}
+@-ms-keyframes spinnerRotate
+{
+    from{-ms-transform:rotate(0deg);}
+    to{-ms-transform:rotate(360deg);}
+}
+#myCanvas{
+    top:2%;
+    left:0%;
+    -webkit-animation-name: spinnerRotate;
+    -webkit-animation-duration: 5s;
+    -webkit-animation-iteration-count: infinite;
+    -webkit-animation-timing-function: linear;
+    -moz-animation-name: spinnerRotate;
+    -moz-animation-duration: 5s;
+    -moz-animation-iteration-count: infinite;
+    -moz-animation-timing-function: linear;
+    -ms-animation-name: spinnerRotate;
+    -ms-animation-duration: 5s;
+    -ms-animation-iteration-count: infinite;
+    -ms-animation-timing-function: linear;
+}
+.in-box {
+    display: inline-block;
+    vertical-align: top;
+    padding: 5px;
+    width: 49%;
+}
+    </style>
+  </head>
+  <body>
+  	<div class="in-box"><canvas id="myCanvas" width="600" height="320"></canvas></div>
+    <div class="in-box"><canvas id="myCanvas2" width="600" height="200"></canvas></div>
+    
+	<script>
+      var canvas = document.getElementById('myCanvas');
+      var context = canvas.getContext('2d');
+      var x = canvas.width / 2;
+      var y = canvas.height / 2;
+      var radius = 150;
+      var offset = 150;
+	 
+
+      /*
+       * save() allows us to save the canvas context before
+       * defining the clipping region so that we can return
+       * to the default state later on
+       */
+      context.save();
+      context.beginPath();
+      context.arc(x, y, radius, 0, 2 * Math.PI, false);
+      context.clip();
+	  context.fillStyle = '#FF7F50';
+      context.fill();
+
+      context.beginPath();
+      context.arc(x - offset, y - offset, radius, 0, 2 * Math.PI, false);
+      context.fillStyle = 'blue';
+      context.fill();
+
+      context.beginPath();
+      context.arc(x + offset, y - offset, radius, 0, 2 * Math.PI, false);
+      context.fillStyle = 'yellow';
+      context.fill();
+
+      context.beginPath();
+      context.arc(x- offset, y + offset, radius, 0, 2 * Math.PI, false);
+      context.fillStyle = 'red';
+      context.fill();
+	  
+      context.beginPath();
+      context.arc(x + offset, y + offset, radius, 0, 2 * Math.PI, false);
+      context.fillStyle = '#32CD32';
+      context.fill();
+	  
+
+      context.restore();
+      context.beginPath();
+      context.arc(x, y, radius, 0, 2 * Math.PI, false);
+      context.lineWidth = 10;
+      context.strokeStyle = '#FF7F50';
+      context.stroke();
+	 
+    </script>
+    <script>
+      function wrapText(context, text, x, y, maxWidth, lineHeight) {
+        var words = text.split(' ');
+        var line = '';
+
+        for(var n = 0; n < words.length; n++) {
+          var testLine = line + words[n] + ' ';
+          var metrics = context.measureText(testLine);
+          var testWidth = metrics.width;
+          if (testWidth > maxWidth && n > 0) {
+            context.fillText(line, x, y);
+            line = words[n] + ' ';
+            y += lineHeight;
+          }
+          else {
+            line = testLine;
+          }
+        }
+        context.fillText(line, x, y);
+      }
+      
+      var canvas = document.getElementById('myCanvas2');
+      var context = canvas.getContext('2d');
+      var maxWidth = 600;
+      var lineHeight = 25;
+      var x = (canvas.width - maxWidth) / 2;
+      var y = 60;
+      var text = 'Lorem ipsum dolor sit amet, constituto definitionem usu no. Tale mollis minimum cu his. Vix an unum commodo, dolore omittantur mediocritatem ut eam. Pri ex facilis omittam, veniam suscipiantur vix ne. Iudicabit maluisset duo ei, dicat consequat in quo, nam ut facilisi dissentiunt. Nihil audire moderatius ei eos, ius ei quem lucilius lobortis.';
+      var ctx = canvas.getContext('2d');
+      ctx.shadowColor = "rgb(190, 190, 190)";
+      ctx.shadowOffsetX = 10;
+      ctx.shadowOffsetY = 10
+      ctx.shadowBlur = 10;
+	  var gradient = ctx.createLinearGradient(0, 0, 150, 100);
+      gradient.addColorStop(0, "rgb(255, 0, 128)");
+      gradient.addColorStop(1, "rgb(255, 153, 51)");
+      ctx.fillStyle = gradient;
+	  context.font = '16pt Calibri';
+      context.fillStyle = gradient;
+
+      wrapText(context, text, x, y, maxWidth, lineHeight);
+	  
+    </script>
+  </body>
+</html>      
